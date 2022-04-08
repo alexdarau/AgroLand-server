@@ -3,6 +3,7 @@ import {IUser} from '../interfaces/IUser'
 import { Model } from 'mongoose';
 
 const Schema = mongoose.Schema;
+
 type UserType = IUser & mongoose.Document;
 
 const UserSchema = new Schema({
