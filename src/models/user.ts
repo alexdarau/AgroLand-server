@@ -6,14 +6,12 @@ const Schema = mongoose.Schema;
 
 type UserType = IUser & mongoose.Document;
 
-const UserSchema = new Schema({
-    firstName: {
+const UserSchema = new Schema<UserType>({
+    username: {
         type: String,
-        required: 'Enter a first name'
     },
     lastName: {
         type: String,
-        required: 'Enter a last name'
     },
     email: {
         type: String            
@@ -30,6 +28,6 @@ const UserSchema = new Schema({
     }
 });
 
-const User: Model<UserType> = mongoose.model<UserType>('Users', UserSchema,'Users');
+const User: Model<UserType> = mongoose.model<UserType>('User', UserSchema, 'User');
 
 export default User;

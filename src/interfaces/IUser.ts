@@ -1,8 +1,8 @@
 export interface IUser {
-    firstName: String
+    username: string;
     lastName:  String,
     email: String            
-    password: String            
+    password: string            
     phone: Number            
     created_date: Date
 }
