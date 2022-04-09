@@ -1,7 +1,7 @@
 import { ICoordinates } from './ICoordinates'
 
 export interface ILand {
-    landName: String,
+    landName: string,
     points: Array<ICoordinates>,
     created_date: Date,
 };

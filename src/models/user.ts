@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 type UserType = IUser & mongoose.Document;
 
 const UserSchema = new Schema<UserType>({
-    username: {
+    firstName: {
         type: String,
     },
     lastName: {

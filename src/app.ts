@@ -1,18 +1,22 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as mongoose from "mongoose";
-import { Routes } from "./routes/routes";
+import { UserRoutes } from "./routes/userRoutes";
+import { LandRoutes } from "./routes/landRoutes";
+
 
 class App {
 
     public app: express.Application;
-    public routes: Routes = new Routes();
+    public userRoutes: UserRoutes = new UserRoutes();
+    public landRoutes: LandRoutes = new LandRoutes();
     public mongoUrl: string = 'mongodb://127.0.0.1:27017/test';  
 
     constructor() {
         this.app = express();
         this.config();     
-        this.routes.routes(this.app);    
+        this.userRoutes.routes(this.app);   
+        this.landRoutes.routes(this.app);   
         this.mongoSetup();
     }
 

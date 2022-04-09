@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
-import {ILand} from '../interfaces/ILand'
+import { ILand } from '../interfaces/ILand'
 
 
 const Schema = mongoose.Schema;
@@ -9,10 +9,9 @@ type LandType = ILand & mongoose.Document;
 const LandSchema = new Schema({
     landName: {
         type: String,
-        required: 'Enter the field name'
     },
     points:{
-        type : Array, "default" : [] 
+        type: [],
     },
     created_date: {
         type: Date,
@@ -20,6 +19,6 @@ const LandSchema = new Schema({
     }
 });
 
-const Land: Model<ILand> = mongoose.model<LandType>('Land', LandSchema);
+const Land: Model<LandType> = mongoose.model<LandType>('Land', LandSchema, 'Land');
 
 export default Land;
