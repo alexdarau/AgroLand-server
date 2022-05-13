@@ -7,23 +7,38 @@ export class UserController {
 
     public async register(req, res) {
 
-        const { username, lastName, email, phone, password: plainTextPassword, } = req.body;
+        const { username, firstName, lastName, email, phone, password: plainTextPassword, } = req.body;
 
         const password = await bcrypt.hash(plainTextPassword, 10)
 
-        try {
-            const response = await User.create({
-                username,
-                lastName,
-                email,
-                phone,
-                password
-            })
-            console.log("Response", JSON.stringify(response))
-        } catch (err) {
-            console.log("Error", err)
+        const userReq = await User.findOne({ email });
+
+        if (!userReq) {
+            try {
+                const response = await User.create({
+                    username,
+                    firstName,
+                    lastName,
+                    email,
+                    phone,
+                    password
+                })
+                return res.status(200).json({
+                    message: "User created successfully!",
+                    user: response
+                })
+            } catch (err) {
+                console.error("Error", err)
+                return res.status(401).json({
+                    message: "User not created!"
+                })
+            }
         }
-        res.json("ok");
+        else {
+            res.status(401).json({
+                message: "User already exists!",
+            });
+        }
     }
 
     public async login(req, res) {
@@ -31,7 +46,6 @@ export class UserController {
         const { username, password } = req.body;
 
         const user = await User.findOne({ username: username });
-        console.log(user)
         if (!user) {
             return res.json({ status: "error", error: "User not found" })
         }
@@ -42,11 +56,13 @@ export class UserController {
                 id: user._id,
                 firstName: user.firstName
             }, JWT_SECRET)
-            return res.json({ status: "ok", data: token })
+            return res.json({ status: "User authenticated successfully", data: token })
         }
-
-
-        res.json({ status: "ok", data: "ssss" })
+        else{
+            return res.status(401).json({
+                message: "Invalid credentials!"
+            })
+        }
     }
 
     public async changePassword(req: Request, res: Response) {
@@ -64,12 +80,12 @@ export class UserController {
                     $set: { password }
                 }
             )
-
-            console.log("🚀 ~ file: userControllers.ts ~ line 66 ~ UserController ~ changePassword ~ user", user)
         }
         catch (error) {
             res.json({ status: 'error', error: "bad token" })
         }
-        res.json({ status: 'ok' })
+        return res.status(200).json({
+            message: "Password change successful!"
+        })
     }
 }

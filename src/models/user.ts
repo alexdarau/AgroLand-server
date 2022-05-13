@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import {IUser} from '../interfaces/IUser'
+import { IUser } from '../interfaces/IUser'
 import { Model } from 'mongoose';
 
 const Schema = mongoose.Schema;
@@ -7,6 +7,9 @@ const Schema = mongoose.Schema;
 type UserType = IUser & mongoose.Document;
 
 const UserSchema = new Schema<UserType>({
+    username: {
+        type: String,
+    },
     firstName: {
         type: String,
     },
@@ -14,13 +17,13 @@ const UserSchema = new Schema<UserType>({
         type: String,
     },
     email: {
-        type: String            
+        type: String
     },
     password: {
-        type: String,      
+        type: String,
     },
     phone: {
-        type: Number            
+        type: Number
     },
     created_date: {
         type: Date,
