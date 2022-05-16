@@ -6,7 +6,7 @@ export class LandRoutes {
 
 
     public routes(app): void {
-        app.route('/api/add-land')
+        app.route('/api/land')
             .post(this.landController.addLand);
     }
 }
