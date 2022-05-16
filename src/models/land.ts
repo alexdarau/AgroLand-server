@@ -13,6 +13,9 @@ const LandSchema = new Schema({
     points:{
         type: [],
     },
+    area: {
+        type: Number
+    },
     created_date: {
         type: Date,
         default: Date.now
