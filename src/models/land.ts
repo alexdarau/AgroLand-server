@@ -10,11 +10,17 @@ const LandSchema = new Schema({
     landName: {
         type: String,
     },
-    points:{
+    points: {
         type: [],
     },
     area: {
         type: Number
+    },
+    operations: {
+        type: [],
+    },
+    notes: {
+        type: [],
     },
     created_date: {
         type: Date,
