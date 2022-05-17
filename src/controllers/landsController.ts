@@ -92,19 +92,18 @@ export class LandController {
     }
 
     public async addNote(req: Request, res: Response) {
-        const { opName, landName, username } = req.body;
-        const operation = {
-            opName,
+        const { note, landName, username } = req.body;
+        const landNote = {
+            note,
             created_date: new Date()
         }
         const user = await User.findOne({ username });
         const userId = user._id;
 
-
         try {
             const land = await Land.updateOne(
-                { userId: userId },
-                { $push: { operations: operation } }
+                { userId: userId, landName: landName},
+                { $push: { notes: landNote } }
             );
             res.json(land);
             console.log("Response", JSON.stringify(land))
