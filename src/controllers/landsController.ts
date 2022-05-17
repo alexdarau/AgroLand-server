@@ -1,7 +1,5 @@
-import * as mongoose from 'mongoose';
 import Land from '../models/land';
 import User from '../models/user';
-import { ICoordinates } from '../interfaces/ICoordinates';
 import { Request, Response } from 'express';
 
 export class LandController {
@@ -91,6 +89,22 @@ export class LandController {
         }
     }
 
+    public async getOperations(req: Request, res: Response) {
+
+        const { landName, username } = req.query; 
+        const user = await User.findOne({ username });
+        const userId = user._id;
+
+
+        try {
+            const land = await Land.findOne({ userId: userId, landName: landName })
+            res.json(land.operations);
+            console.log("Response", JSON.stringify(land))
+        } catch (err) {
+            console.log("Error", err)
+        }
+    }
+
     public async addNote(req: Request, res: Response) {
         const { note, landName, username } = req.body;
         const landNote = {
@@ -111,4 +125,21 @@ export class LandController {
             console.log("Error", err)
         }
     }
+
+    public async getNotes(req: Request, res: Response) {
+
+        const { landName, username } = req.query; 
+        const user = await User.findOne({ username });
+        const userId = user._id;
+
+
+        try {
+            const land = await Land.findOne({ userId: userId, landName: landName })
+            res.json(land.notes);
+            console.log("Response", JSON.stringify(land))
+        } catch (err) {
+            console.log("Error", err)
+        }
+    }
+
 }
