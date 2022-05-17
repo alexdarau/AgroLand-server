@@ -7,6 +7,9 @@ const Schema = mongoose.Schema;
 type LandType = ILand & mongoose.Document;
 
 const LandSchema = new Schema({
+    userId:{
+        type: mongoose.Schema.Types.ObjectId
+    },
     landName: {
         type: String,
     },

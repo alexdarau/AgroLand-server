@@ -1,25 +1,36 @@
 import * as mongoose from 'mongoose';
 import Land from '../models/land';
+import User from '../models/user';
 import { ICoordinates } from '../interfaces/ICoordinates';
 import { Request, Response } from 'express';
 
 export class LandController {
 
     public async addLand(req: Request, res: Response) {
-        const { landName, pointsReq } = req.body;
+        const { landName, pointsReq, username } = req.body;
         const points = JSON.parse(pointsReq);
         const area = LandController.calculateArea(points)
-        console.log("Area:", LandController.calculateArea(points))
-        try {
-            const response = await Land.create({
-                landName,
-                points,
-                area
-            });
-            res.json(response);
-            console.log("Response", JSON.stringify(response))
-        } catch (err) {
-            console.log("Error", err)
+
+        const user = await User.findOne({ username });
+        if (user) {
+            const userId = user._id;
+
+            console.log("Area:", LandController.calculateArea(points))
+            try {
+                const response = await Land.create({
+                    userId,
+                    landName,
+                    points,
+                    area
+                });
+                res.json(response);
+                console.log("Response", JSON.stringify(response))
+            } catch (err) {
+                console.log("Error", err)
+            }
+        }
+        else {
+            res.status(401).json("Unauthorized access");
         }
     }
 
@@ -39,7 +50,7 @@ export class LandController {
             })
 
             area = area * 6366993 * 6366993;
-            
+
         }
 
         return Math.abs(area);
@@ -53,5 +64,52 @@ export class LandController {
         let deltaLng = lng1 - lng2;
         let t = tan1 * tan2;
         return 2 * Math.atan2(t * Math.sin(deltaLng), 1 + t * Math.cos(deltaLng));
+    }
+
+
+
+    public async addOperation(req: Request, res: Response) {
+
+        const { opName, landName, username } = req.body;
+        const operation = {
+            opName,
+            created_date: new Date()
+        }
+        const user = await User.findOne({ username });
+        const userId = user._id;
+
+
+        try {
+            const land = await Land.updateOne(
+                { userId: userId, landName: landName },
+                { $push: { operations: operation } }
+            );
+            res.json(land);
+            console.log("Response", JSON.stringify(land))
+        } catch (err) {
+            console.log("Error", err)
+        }
+    }
+
+    public async addNote(req: Request, res: Response) {
+        const { opName, landName, username } = req.body;
+        const operation = {
+            opName,
+            created_date: new Date()
+        }
+        const user = await User.findOne({ username });
+        const userId = user._id;
+
+
+        try {
+            const land = await Land.updateOne(
+                { userId: userId },
+                { $push: { operations: operation } }
+            );
+            res.json(land);
+            console.log("Response", JSON.stringify(land))
+        } catch (err) {
+            console.log("Error", err)
+        }
     }
 }
