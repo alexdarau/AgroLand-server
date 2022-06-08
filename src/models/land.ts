@@ -13,6 +13,9 @@ const LandSchema = new Schema({
     landName: {
         type: String,
     },
+    landCulture: {
+        type: String,
+    },
     points: {
         type: [],
     },

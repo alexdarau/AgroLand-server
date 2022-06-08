@@ -1,16 +1,20 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as mongoose from "mongoose";
+import * as dotenv from 'dotenv';
 import { UserRoutes } from "./routes/userRoutes";
 import { LandRoutes } from "./routes/landRoutes";
 
+dotenv.config();
 
+const DATABASE_URL = process.env.DATABASE_URL
+console.log(DATABASE_URL)
 class App {
-
     public app: express.Application;
     public userRoutes: UserRoutes = new UserRoutes();
     public landRoutes: LandRoutes = new LandRoutes();
-    public mongoUrl: string = 'mongodb://127.0.0.1:27017/test';  
+    public mongoUrl: string = DATABASE_URL;  
+
 
     constructor() {
         this.app = express();

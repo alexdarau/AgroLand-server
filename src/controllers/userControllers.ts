@@ -58,14 +58,14 @@ export class UserController {
             }, JWT_SECRET)
             return res.json({ status: "User authenticated successfully", data: token })
         }
-        else{
+        else {
             return res.status(401).json({
                 message: "Invalid credentials!"
             })
         }
     }
 
-    public async changePassword(req: Request, res: Response) {
+    public async  changePassword(req: Request, res: Response) {
         const { token, newPassword: plainTextPassword } = req.body
         try {
 
@@ -87,5 +87,14 @@ export class UserController {
         return res.status(200).json({
             message: "Password change successful!"
         })
+    }
+
+    public async getUser(req: Request, res: Response) {
+        const { username } = req.query
+
+        const user = await User.findOne({ username });
+        console.log("🚀 ~ file: userControllers.ts ~ line 96 ~ UserController ~ getUser ~ user", user)
+
+        res.status(200).json(user);
     }
 }

@@ -6,6 +6,7 @@ import { ObjectId } from 'mongoose';
 export interface ILand {
     username: ObjectId,
     landName: string,
+    landCulture: string,
     points: Array<ICoordinates>,
     area: Number,
     operations: Array<IOperation>,

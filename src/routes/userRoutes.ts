@@ -12,6 +12,8 @@ export class UserRoutes {
             .post(this.userControllers.register);
         app.route('/api/login')
             .post(this.userControllers.login);
+        app.route('/api/user')
+            .get(this.userControllers.getUser);
 
     }
 }
